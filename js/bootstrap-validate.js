@@ -124,42 +124,41 @@
 				var test_id=$(this).attr("test-id");
 				var $element = $(this);
 
-				if($element.find("[test-point]").size()==0){
-					$(eles_path).on("focus","[test-id='"+test_id+"']",function(){
-						$eles.find("[message-for='"+test_id+"']").addClass('sr-only');
-						$eles.find("[message-for='"+test_id+"']").parents('.form-group').removeClass('has-error');
+				if($element.find("[test-point]").size()==0) {
+					$(eles_path).on("focus", "[test-id='" + test_id + "']", function () {
+						$eles.find("[message-for='" + test_id + "']").addClass('sr-only');
+						$eles.find("[message-for='" + test_id + "']").parents('.form-group').removeClass('has-error');
 					});
-					$(eles_path).on("keyup","[test-id='"+test_id+"']",function(){
-						simValidate.testElement($element,test_id);
+					$(eles_path).on("keyup", "[test-id='" + test_id + "']", function () {
+						simValidate.testElement($element, test_id);
 					});
-					$(eles_path).on("blur","[test-id='"+test_id+"']",function(){
-						simValidate.testElement($element,test_id);
+					$(eles_path).on("blur", "[test-id='" + test_id + "']", function () {
+						simValidate.testElement($element, test_id);
 					});
-					$(eles_path).on("change","[test-id='"+test_id+"']",function(){
-						simValidate.testElement($element,test_id);
+					$(eles_path).on("change", "[test-id='" + test_id + "']", function () {
+						simValidate.testElement($element, test_id);
 					});
-
 				}else{ // 如果是 group test
-					$(eles_path).on("focus","[test-id='"+test_id+"']>[test-point]",function(){
+					$(eles_path).on("focus","[test-id='"+test_id+"'] [test-point]",function(){
 						$eles.find("[message-for='"+test_id+"']").addClass('sr-only');
 						$eles.find("[message-for='"+test_id+"']").parents('.form-group').removeClass('has-error');
 					});
-					$(eles_path).on("keyup","[test-id='"+test_id+"']>[test-point]",function(){
-						$eles.find("[message-for='"+test_id+"']").addClass('sr-only');
-						$eles.find("[message-for='"+test_id+"']").parents('.form-group').removeClass('has-error');
-						simValidate.testElement($element);
-					});
-					$(eles_path).on("blur","[test-id='"+test_id+"']>[test-point]",function(){
+					$(eles_path).on("keyup","[test-id='"+test_id+"'] [test-point]",function(){
 						$eles.find("[message-for='"+test_id+"']").addClass('sr-only');
 						$eles.find("[message-for='"+test_id+"']").parents('.form-group').removeClass('has-error');
 						simValidate.testElement($element);
 					});
-					$(eles_path).on("change","[test-id='"+test_id+"']>[test-point]",function(){
+					$(eles_path).on("blur","[test-id='"+test_id+"'] [test-point]",function(){
 						$eles.find("[message-for='"+test_id+"']").addClass('sr-only');
 						$eles.find("[message-for='"+test_id+"']").parents('.form-group').removeClass('has-error');
 						simValidate.testElement($element);
 					});
-					$(eles_path).on("click","[test-id='"+test_id+"']>[test-point]",function(){
+					$(eles_path).on("change","[test-id='"+test_id+"'] [test-point]",function(){
+						$eles.find("[message-for='"+test_id+"']").addClass('sr-only');
+						$eles.find("[message-for='"+test_id+"']").parents('.form-group').removeClass('has-error');
+						simValidate.testElement($element);
+					});
+					$(eles_path).on("click","[test-id='"+test_id+"'] [test-point]",function(){
 						$eles.find("[message-for='"+test_id+"']").addClass('sr-only');
 						$eles.find("[message-for='"+test_id+"']").parents('.form-group').removeClass('has-error');
 						simValidate.testElement($element,test_id);
@@ -203,6 +202,10 @@
 				var validator=validators[key];
 				var value = $point.val();
 				var test_id=$point.attr("test-id");
+
+				if($point.data('depend') && !$eles.find('[test-depend="'+$point.data('depend')+'"]').is(':checked')){
+					continue;
+				}
 				if(!validator(value,param,$point,this)){//注入校验器参数：value值，param校验参数，$point待校验对象，this当前SimValidate对象
 					if($eles.find("[message-for='"+test_id+"']").size() > 1) {
 						$eles.find("[message-for='" + test_id + "'][test-type='" + key + "']").removeClass('sr-only');
@@ -287,7 +290,6 @@
 				return true;
 			else
 				return false;
-
 		},
 		required: function(value){//非空
 			if(value==null || value.length==0)
