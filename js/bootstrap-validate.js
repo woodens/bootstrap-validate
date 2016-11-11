@@ -106,6 +106,7 @@
 		if(this.settings['autoTest']){
 			this.autoValidate();
 		}
+		this.delDepend();
 	};
 
 	SimValidate.prototype={
@@ -193,6 +194,7 @@
 			var settings=this.settings;
 
 			var single_valid=true;
+
 			for(var key in validators){//每个校验器
 				if(settings["shortTest"] && !single_valid) break;//如果短路校验
 
@@ -226,6 +228,30 @@
 				}
 			}
 			return single_valid;
+		},
+		/**
+		 * 去除依赖检查
+		 */
+		delDepend:function(){
+			var eles_path = this.eles_path;
+			var $eles = this.$eles;
+			//绑定去除依赖检查事件
+			$eles.find("[test-depend]").each(function(index) {
+				var $element = $(this);
+				$(eles_path).on("change",'[test-depend]',function(){
+					if (!$(this).is(':checked')) {
+						$eles.find("[test-id]").each(function () {
+							var $element2 = $(this);
+							var test_id = $element2.attr("test-id");
+							if ($element2.data('depend') == $element.attr("test-depend")) {
+								$eles.find("[message-for='" + test_id + "']").addClass('sr-only');
+								$eles.find("[message-for='" + test_id + "']").parents('.form-group').removeClass('has-error');
+							}
+						});
+					}
+				});
+
+			});
 		},
 		/**
 		 * 用户添加自定义验证器
