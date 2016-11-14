@@ -210,9 +210,11 @@
 				}
 				if(!validator(value,param,$point,this)){//注入校验器参数：value值，param校验参数，$point待校验对象，this当前SimValidate对象
 					if($eles.find("[message-for='"+test_id+"']").size() > 1) {
+						$eles.find("[message-for='" + test_id + "'][test-type='" + key + "']").siblings().addClass('sr-only');
 						$eles.find("[message-for='" + test_id + "'][test-type='" + key + "']").removeClass('sr-only');
 						$eles.find("[message-for='" + test_id + "'][test-type='" + key + "']").parents('.form-group').addClass('has-error');
 					}else{
+						$eles.find("[message-for='"+test_id+"']").siblings().addClass('sr-only');
 						$eles.find("[message-for='"+test_id+"']").removeClass('sr-only');
 						$eles.find("[message-for='"+test_id+"']").parents('.form-group').addClass('has-error');
 					}
@@ -236,21 +238,18 @@
 			var eles_path = this.eles_path;
 			var $eles = this.$eles;
 			//绑定去除依赖检查事件
-			$eles.find("[test-depend]").each(function(index) {
+			$(eles_path).on("change",'[test-depend]',function(){
 				var $element = $(this);
-				$(eles_path).on("change",'[test-depend]',function(){
-					if (!$(this).is(':checked')) {
-						$eles.find("[test-id]").each(function () {
-							var $element2 = $(this);
-							var test_id = $element2.attr("test-id");
-							if ($element2.data('depend') == $element.attr("test-depend")) {
-								$eles.find("[message-for='" + test_id + "']").addClass('sr-only');
-								$eles.find("[message-for='" + test_id + "']").parents('.form-group').removeClass('has-error');
-							}
-						});
-					}
-				});
-
+				if (!$element.is(':checked')) {
+					$eles.find("[data-depend]").each(function () {
+						var $element2 = $(this);
+						var test_id = $element2.attr("test-id");
+						if ($element2.data('depend') == $element.attr("test-depend")) {
+							$eles.find("[message-for='" + test_id + "']").addClass('sr-only');
+							$eles.find("[message-for='" + test_id + "']").parents('.form-group').removeClass('has-error');
+						}
+					});
+				}
 			});
 		},
 		/**
