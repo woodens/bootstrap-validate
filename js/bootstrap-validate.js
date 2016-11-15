@@ -102,7 +102,7 @@
 		};
 		this.settings= $.extend({},this.defaults, options);
 		eles.find("[message-for]").addClass('sr-only');//隐藏所有消息
-		eles.find("[message-for]").parents('.form-group').removeClass('has-error');//取消错误样式
+		eles.find("[message-for]").closest('.form-group').removeClass('has-error');//取消错误样式
 		if(this.settings['autoTest']){
 			this.autoValidate();
 		}
@@ -128,7 +128,7 @@
 				if($element.find("[test-point]").size()==0) {
 					$(eles_path).on("focus", "[test-id='" + test_id + "']", function () {
 						$eles.find("[message-for='" + test_id + "']").addClass('sr-only');
-						$eles.find("[message-for='" + test_id + "']").parents('.form-group').removeClass('has-error');
+						$eles.find("[message-for='" + test_id + "']").closest('.form-group').removeClass('has-error');
 					});
 					$(eles_path).on("keyup", "[test-id='" + test_id + "']", function () {
 						simValidate.testElement($element, test_id);
@@ -142,26 +142,26 @@
 				}else{ // 如果是 group test
 					$(eles_path).on("focus","[test-id='"+test_id+"'] [test-point]",function(){
 						$eles.find("[message-for='"+test_id+"']").addClass('sr-only');
-						$eles.find("[message-for='"+test_id+"']").parents('.form-group').removeClass('has-error');
+						$eles.find("[message-for='"+test_id+"']").closest('.form-group').removeClass('has-error');
 					});
 					$(eles_path).on("keyup","[test-id='"+test_id+"'] [test-point]",function(){
 						$eles.find("[message-for='"+test_id+"']").addClass('sr-only');
-						$eles.find("[message-for='"+test_id+"']").parents('.form-group').removeClass('has-error');
+						$eles.find("[message-for='"+test_id+"']").closest('.form-group').removeClass('has-error');
 						simValidate.testElement($element);
 					});
 					$(eles_path).on("blur","[test-id='"+test_id+"'] [test-point]",function(){
 						$eles.find("[message-for='"+test_id+"']").addClass('sr-only');
-						$eles.find("[message-for='"+test_id+"']").parents('.form-group').removeClass('has-error');
+						$eles.find("[message-for='"+test_id+"']").closest('.form-group').removeClass('has-error');
 						simValidate.testElement($element);
 					});
 					$(eles_path).on("change","[test-id='"+test_id+"'] [test-point]",function(){
 						$eles.find("[message-for='"+test_id+"']").addClass('sr-only');
-						$eles.find("[message-for='"+test_id+"']").parents('.form-group').removeClass('has-error');
+						$eles.find("[message-for='"+test_id+"']").closest('.form-group').removeClass('has-error');
 						simValidate.testElement($element);
 					});
 					$(eles_path).on("click","[test-id='"+test_id+"'] [test-point]",function(){
 						$eles.find("[message-for='"+test_id+"']").addClass('sr-only');
-						$eles.find("[message-for='"+test_id+"']").parents('.form-group').removeClass('has-error');
+						$eles.find("[message-for='"+test_id+"']").closest('.form-group').removeClass('has-error');
 						simValidate.testElement($element,test_id);
 					});
 				}
@@ -174,7 +174,7 @@
 		 */
 		validate: function(){
 			this.$eles.find("[message-for]").addClass('sr-only');
-			this.$eles.find("[message-for]").parents('.form-group').removeClass('has-error');
+			this.$eles.find("[message-for]").closest('.form-group').removeClass('has-error');
 			var total_valid = true;
 			var simValidate = this;
 			//校验每个待校验元素
@@ -184,7 +184,6 @@
 
 			return total_valid;
 		},
-
 		/**
 		 * 校验每一个待校验元素
 		 */
@@ -212,20 +211,20 @@
 					if($eles.find("[message-for='"+test_id+"']").size() > 1) {
 						$eles.find("[message-for='" + test_id + "'][test-type='" + key + "']").siblings().addClass('sr-only');
 						$eles.find("[message-for='" + test_id + "'][test-type='" + key + "']").removeClass('sr-only');
-						$eles.find("[message-for='" + test_id + "'][test-type='" + key + "']").parents('.form-group').addClass('has-error');
+						$eles.find("[message-for='" + test_id + "'][test-type='" + key + "']").closest('.form-group').addClass('has-error');
 					}else{
 						$eles.find("[message-for='"+test_id+"']").siblings().addClass('sr-only');
 						$eles.find("[message-for='"+test_id+"']").removeClass('sr-only');
-						$eles.find("[message-for='"+test_id+"']").parents('.form-group').addClass('has-error');
+						$eles.find("[message-for='"+test_id+"']").closest('.form-group').addClass('has-error');
 					}
 					single_valid = false;
 				}else{
 					if($eles.find("[message-for='"+test_id+"']").size() > 1) {
 						$eles.find("[message-for='" + test_id + "'][test-type='" + key + "']").addClass('sr-only');
-						$eles.find("[message-for='" + test_id + "'][test-type='" + key + "']").parents('.form-group').removeClass('has-error');
+						$eles.find("[message-for='" + test_id + "'][test-type='" + key + "']").closest('.form-group').removeClass('has-error');
 					}else{
 						$eles.find("[message-for='"+test_id+"']").addClass('sr-only');
-						$eles.find("[message-for='"+test_id+"']").parents('.form-group').removeClass('has-error');
+						$eles.find("[message-for='"+test_id+"']").closest('.form-group').removeClass('has-error');
 					}
 				}
 			}
@@ -246,7 +245,7 @@
 						var test_id = $element2.attr("test-id");
 						if ($element2.data('depend') == $element.attr("test-depend")) {
 							$eles.find("[message-for='" + test_id + "']").addClass('sr-only');
-							$eles.find("[message-for='" + test_id + "']").parents('.form-group').removeClass('has-error');
+							$eles.find("[message-for='" + test_id + "']").closest('.form-group').removeClass('has-error');
 						}
 					});
 				}
@@ -307,7 +306,7 @@
 				var test_id = point.attr("test-id");
 				$(obj.eles_path).on("blur", "[test-id='" + param + "']", function () {
 					obj.$eles.find("[message-for='" + test_id + "']").addClass('sr-only');
-					obj.$eles.find("[message-for='" + test_id + "']").parents('.form-group').removeClass('has-error');
+					obj.$eles.find("[message-for='" + test_id + "']").closest('.form-group').removeClass('has-error');
 					obj.testElement(point);
 				});
 			}
