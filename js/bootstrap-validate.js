@@ -374,6 +374,19 @@
 				return false;
 			}
 		},
+		tel:function(value){
+			if(value==null || value.length==0) return true;
+			var isTel=/^(0[0-9]{2,3}\-)?([2-9][0-9]{6,7})+(\-[0-9]{1,4})?$/;
+			if(isTel.test(value)){
+				return true;
+			}
+			else{
+				return false;
+			}
+		},
+		mobileOrTel:function(value){
+			return mobile(value)||tel(value);
+		},
 		idcard:function(idCard) {//身份证号
 			if(idCard==null || idCard.length==0) return true;
 			//15位和18位身份证号码的正则表达式
