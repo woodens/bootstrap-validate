@@ -294,8 +294,9 @@
 			var self_test_id = point.attr("test-id");
 			var diff = false;
 			$("[distinct='"+param+"']").each(function(){
-				if(self_test_id != $(this).attr("test-id")&& value == $(this).val())
+				if(self_test_id != $(this).attr("test-id")&& value == $(this).val()){
 					diff = true;
+				}
 			});
 			return !diff;
 		},
@@ -310,16 +311,18 @@
 					obj.testElement(point);
 				});
 			}
-			if(obj.$eles.find("[test-id='"+param+"']").val()==value)
+			if(obj.$eles.find("[test-id='"+param+"']").val()==value){
 				return true;
-			else
+			}else{
 				return false;
+			}
 		},
 		required: function(value){//非空
-			if(value==null || value.length==0)
+			if(value==null || value.length==0){
 				return false;
-			else
+			}else{
 				return true;
+			}
 		},
 		number: function(value){//数字
 			if(value==null || value.length==0) return true;
@@ -329,38 +332,42 @@
 		groupRequired:function(value, param, group){
 			var valid = false;
 			group.find("[test-point]").each(function(){
-				if($(this).is(':checked'))
+				if($(this).is(':checked')){
 					valid=true;
+				}
 			});
 			return valid;
 		},
 		max: function(value,num){//最大值
 			if(value==null || value.length==0) return true;
-			if(parseFloat(value)>parseFloat(num))
+			if(parseFloat(value)>parseFloat(num)){
 				return false;
-			else
+			}else{
 				return true;
+			}
 		},
 		min: function(value,num){//最小值
 			if(value==null || value.length==0) return true;
-			if(parseFloat(value)<parseFloat(num))
+			if(parseFloat(value)<parseFloat(num)) {
 				return false;
-			else
+			}else{
 				return true;
+			}
 		},
 		minlength:function(value,num){
 			if(value==null || value.length==0) return true;
-			if(value.length<parseFloat(num))
+			if(value.length<parseFloat(num)){
 				return false;
-			else
+			}else{
 				return true;
+			}
 		},
 		email: function(value){//email
 			if(value==null || value.length==0) return true;
 			var reg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
 			if (reg.test(value)) {
 				return true;
-			} else {
+			}else {
 				return false;
 			}
 		},
@@ -369,8 +376,7 @@
 			var isMob=/^((\+?86)|(\(\+86\)))?(13[012356789][0-9]{8}|15[012356789][0-9]{8}|17[012356789][0-9]{8}|18[02356789][0-9]{8}|147[0-9]{8}|1349[0-9]{7})$/;
 			if(isMob.test(value)){
 				return true;
-			}
-			else{
+			}else{
 				return false;
 			}
 		},
@@ -379,13 +385,19 @@
 			var isTel=/^(0[0-9]{2,3}\-)?([2-9][0-9]{6,7})+(\-[0-9]{1,4})?$/;
 			if(isTel.test(value)){
 				return true;
-			}
-			else{
+			}else{
 				return false;
 			}
 		},
 		mobileOrTel:function(value){
-			return mobile(value)||tel(value);
+			if(value==null || value.length==0) return true;
+			var isMob=/^((\+?86)|(\(\+86\)))?(13[012356789][0-9]{8}|15[012356789][0-9]{8}|17[012356789][0-9]{8}|18[02356789][0-9]{8}|147[0-9]{8}|1349[0-9]{7})$/;
+			var isTel=/^(0[0-9]{2,3}\-)?([2-9][0-9]{6,7})+(\-[0-9]{1,4})?$/;
+			if(isMob.test(value)||isTel.test(value)){
+				return true;
+			}else{
+				return false;
+			}
 		},
 		idcard:function(idCard) {//身份证号
 			if(idCard==null || idCard.length==0) return true;
