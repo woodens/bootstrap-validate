@@ -16,7 +16,12 @@
  * （2）message-for：校验信息隶属于哪个被校验控件，基值为被校验控件的test-id；
  * （3）test-type：校验信息的类型，与message-for同时使用；
  * （4）test-point：待校验控件组中的校验点，即组中的单个控件；
- * （5）required, groupRequired, number, max, min, minlength, email, idcard, mobile，equalTo以及自定义校验器的名字，用于标识待校验控件的校验类型；
+ * （5）test-case-name：radio选项依赖的name
+ * （6）data-case：     要检验的表单依赖的radio的值
+ * （7）data-case-name：要检验的表单依赖的radio name属性值
+ * （8）test-depend：依赖的checkbox名称
+ * （9）data-depend：要检验的表单所依赖的checkbox名称
+ * （10）required, groupRequired, number, max, min, minlength, email, idcard, mobile，equalTo以及自定义校验器的名字，用于标识待校验控件的校验类型；
  * 3. 使用方法
  * （1）html代码
  * 		<div id="inputs_elements">
@@ -207,6 +212,11 @@
 				if($point.data('depend') && !$eles.find('[test-depend="'+$point.data('depend')+'"]').is(':checked')){
 					continue;
 				}
+				if($point.data('case-name')){
+					if($eles.find('[name="'+$point.data('case-name')+'"]:checked').val()!=$point.data('case')){
+						continue;
+					}
+				}
 				if(!validator(value,param,$point,this)){//注入校验器参数：value值，param校验参数，$point待校验对象，this当前SimValidate对象
 					if($eles.find("[message-for='"+test_id+"']").size() > 1) {
 						$eles.find("[message-for='" + test_id + "'][test-type='" + key + "']").siblings().addClass('sr-only');
@@ -250,6 +260,18 @@
 					});
 				}
 			});
+			$(eles_path).on("change",'[test-case-name]',function(){
+				var $element = $(this);
+				$eles.find("[data-case]").each(function () {
+					var $element2 = $(this);
+					if ($element.attr('name')==$element2.data('case-name')&&$element2.data('case') != $element.val()) {
+						var test_id = $element2.attr("test-id");
+						$eles.find("[message-for='" + test_id + "']").addClass('sr-only');
+						$eles.find("[message-for='" + test_id + "']").closest('.form-group').removeClass('has-error');
+					}
+				});
+			});
+
 		},
 		/**
 		 * 用户添加自定义验证器
